@@ -1,0 +1,43 @@
+version: "3"
+
+services:
+    ecommerce_db:
+        build: ./ecommerce/ecommerce_db
+        env_file:
+          - .env
+        environment:
+          - "MYSQL_USER=${ECOMMERCE_DB_USER}"
+          - "MYSQL_PASSWORD=${ECOMMERCE_DB_USER_PASSWORD}"
+          - "MYSQL_ROOT_PASSWORD=${ECOMMERCE_DB_ROOT_PASSWORD}"
+          - "MYSQL_DATABASE=${ECOMMERCE_DB_DATABASE}"
+        volumes:
+          - "${STORAGE_PATH_ECOMMERCE_DB}:/var/lib/mysql"
+        networks:
+          - ecommerce_app_net
+    ecommerce_session:
+        build: ./ecommerce/ecommerce_session
+        env_file:
+          - .env
+        volumes:
+          - "${STORAGE_PATH_ECOMMERCE_SESSION}:/data"
+        networks:
+          - ecommerce_app_net
+    ecommerce_app:
+        build: ./ecommerce/ecommerce_app
+        image: localhost:5000/ecommerce_app:latest
+        depends_on:
+          - ecommerce_db
+          - ecommerce_session
+        ports:
+          - "3000:3000"
+        env_file:
+          - .env
+        volumes:
+          - "${CODE_PATH_ECOMMERCE_APP}:/code"
+        networks:
+          - ecommerce_app_net
+        command: ["run", "dev"]
+
+networks:
+  ecommerce_app_net:
+    driver: bridge
