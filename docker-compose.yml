@@ -1,0 +1,94 @@
+version: "3"
+
+services:
+    front_proxy:
+        build: ./ecommerce/reverse_proxy
+        ports:
+          - "80:80"     # The HTTP port
+          - "8080:8080" # The UI, this is enabled by --api flag on the command
+        volumes:
+          - /var/run/docker.sock:/var/run/docker.sock # Traefik listen docker events
+          - ./ecommerce/reverse_proxy/traefik.toml:/etc/traefik/traefik.toml
+        # command: --api --docker # Enables the web UI and tells Traefik to listen to docker
+        networks:
+          - ecommerce_app_net
+          - blog_app_net
+    ecommerce_db:
+        build: ./ecommerce/ecommerce_db
+        env_file:
+          - .env
+        environment:
+          - "MYSQL_USER=${ECOMMERCE_DB_USER}"
+          - "MYSQL_PASSWORD=${ECOMMERCE_DB_USER_PASSWORD}"
+          - "MYSQL_ROOT_PASSWORD=${ECOMMERCE_DB_ROOT_PASSWORD}"
+          - "MYSQL_DATABASE=${ECOMMERCE_DB_DATABASE}"
+        volumes:
+          - "${STORAGE_PATH_ECOMMERCE_DB}:/var/lib/mysql"
+        networks:
+          - ecommerce_app_net
+    ecommerce_session:
+        build: ./ecommerce/ecommerce_session
+        env_file:
+          - .env
+        volumes:
+          - "${STORAGE_PATH_ECOMMERCE_SESSION}:/data"
+        networks:
+          - ecommerce_app_net
+    ecommerce_app:
+        build: ./ecommerce/ecommerce_app
+        image: localhost:5000/ecommerce_app:latest
+        depends_on:
+          - ecommerce_db
+          - ecommerce_session
+        ports:
+          - "3000"
+        env_file:
+          - .env
+        volumes:
+          - "${CODE_PATH_ECOMMERCE_APP}:/code"
+        labels:
+          traefik.frontend.rule: "Host:ecommerceapp.docker.localhost"
+        networks:
+          - ecommerce_app_net
+        command: ["run", "dev"]
+    blog_fpm:
+        build: ./blog/app
+        env_file:
+          - .env
+        environment:
+          - "WORDPRESS_DB_HOST=${BLOG_DB_HOST}"
+          - "WORDPRESS_DB_USER=${BLOG_DB_USER}"
+          - "WORDPRESS_DB_PASSWORD=${BLOG_DB_PASSWORD}"
+          - "WORDPRESS_DB_NAME=${BLOG_DB_NAME}"
+        networks:
+          - blog_app_net
+    blog_db:
+        build: ./blog/mysql
+        env_file:
+          - .env
+        environment:
+          - "MYSQL_USER=${BLOG_DB_USER}"
+          - "MYSQL_PASSWORD=${BLOG_DB_PASSWORD}"
+          - "MYSQL_ROOT_PASSWORD=${BLOG_DB_ROOT_PASSWORD}"
+          - "MYSQL_DATABASE=${BLOG_DB_NAME}"
+        volumes:
+          - "${STORAGE_PATH_BLOG_DB}:/var/lib/mysql"
+        networks:
+          - blog_app_net
+    blog_app:
+        build: ./blog/nginx
+        depends_on:
+          - blog_db
+          - blog_fpm
+        volumes:
+          - "${CODE_BLOG_PATH}:/var/www/html"
+        labels:
+          traefik.frontend.rule: "Host:ecommerceblog.docker.localhost"
+        networks:
+          - blog_app_net
+
+networks:
+  ecommerce_app_net:
+    driver: bridge
+  blog_app_net:
+    driver: bridge

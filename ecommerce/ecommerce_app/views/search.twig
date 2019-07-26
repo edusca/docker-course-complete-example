@@ -1,0 +1,26 @@
+{% extends 'layout.twig' %}
+
+{% block body %}
+    <div class="search">
+        <form action="{{ host }}/search" method="get">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">
+                        Escribe lo que necesitas
+                    </span>
+                </div>
+                <input type="text" placeholder="arduino, pic, atmel, micro controladores..." class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" name="searchText">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="submit">Buscar</button>
+                </div>
+            </div>
+        </form>
+
+        {% if products is not empty %}
+            {% include 'search_items.twig' %}
+        {% else %}
+            {% include 'search_items_empty.twig' %}
+        {% endif %}
+    </div>
+
+{% endblock %}

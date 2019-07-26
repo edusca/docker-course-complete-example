@@ -1,0 +1,8 @@
+.idea/*
+ecommerce/ecommerce_app/.idea/*
+ecommerce/ecommerce_app/public/uploads/products/*
+ecommerce/ecommerce_app/node_modules/*
+.env
+data/blog_db/*
+data/ecommerce_db/*
+data/ecommerce_session/*

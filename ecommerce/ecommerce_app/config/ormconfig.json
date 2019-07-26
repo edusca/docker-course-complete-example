@@ -1,0 +1,29 @@
+{
+  "development": {
+    "username": "ecommerce",
+    "password": "password",
+    "database": "ecommerce",
+    "host": "ecommerce_db",
+    "port" : 3306,
+    "dialect": "mysql",
+    "operatorsAliases": false
+  },
+  "test": {
+    "username": "",
+    "password": "",
+    "database": "",
+    "host": "",
+    "port" : 3307,
+    "dialect": "mysql",
+    "operatorsAliases": false
+  },
+  "production": {
+    "username": "",
+    "password": "",
+    "database": "",
+    "host": "",
+    "port" : 3306,
+    "dialect": "mysql",
+    "operatorsAliases": false
+  }
+}

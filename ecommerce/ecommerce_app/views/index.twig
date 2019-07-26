@@ -1,0 +1,53 @@
+{% extends 'layout.twig' %}
+
+{% block body %}
+    <div class="home col-md-12">
+        <div class="row bannersContainer">
+            <div class="banners">
+                <img src="/images/banner.jpg">
+                <div class="bannerInnerPanel">
+                    <p>Encuentra los mejores productos electrónicos y como utilizarlos en nuestra plataforma</p>
+
+                    <input type="button" class="btn my-btn-search-suggested" value="Productos destacados">
+                    <input type="button" class="btn my-btn-blog" value="Blog">
+                </div>
+            </div>
+        </div>
+
+        {% if products is not empty %}
+            <div class="row suggestedProductsTitle">
+                <p><strong>Productos sugeridos</strong></p>
+            </div>
+
+            <div class="row suggestedProducts">
+                {% for product in products %}
+                    {% include 'search_item.twig' %}
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <div class="row ourClientsTitle">
+            <p><strong>Nuestros clientes</strong></p>
+        </div>
+
+        <div class="row ourClients">
+            <div class="col-md-4">
+                <img class="rounded-circle" src="/images/pepe-argento-client.jpg">
+                <p class="clientName">El pepe</p>
+                <p class="clientReview">"Lorem impsum bla mspersmi"</p>
+            </div>
+
+            <div class="col-md-4">
+                <img class="rounded-circle" src="/images/homer-simpson.jpg">
+                <p class="clientName">Homer</p>
+                <p class="clientReview">"Lorem impsum bla mspersmi"</p>
+            </div>
+
+            <div class="col-md-4">
+                <img class="rounded-circle" src="/images/iron-man.jpeg">
+                <p class="clientName">Iron man</p>
+                <p class="clientReview">"Lorem impsum bla mspersmi"</p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

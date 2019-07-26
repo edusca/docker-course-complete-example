@@ -1,0 +1,68 @@
+{% extends 'layout.twig' %}
+
+{% block body %}
+    <div class="col-md-12">
+        <h1>Dashboard</h1>
+
+        <div class="metricsPanel">
+            <div class="metric-color1">
+                <div class="metricIcon">
+                    <img class="mx-auto d-block" src="/images/purchase.png">
+                </div>
+                <div class="info">
+                    <p class="item">Compras</p>
+                    <p class="number">0</p>
+                </div>
+            </div>
+
+            <div class="metric-color2">
+                <div class="metricIcon">
+                    <img class="mx-auto d-block" src="/images/page-view.png">
+                </div>
+                <div class="info">
+                    <p class="item">Vistas</p>
+                    <p class="number">0</p>
+                </div>
+            </div>
+
+            <div class="metric-color3">
+                <div class="metricIcon">
+                    <img class="mx-auto d-block" src="/images/cancel.png">
+                </div>
+                <div class="info">
+                    <p class="item">Cancelados</p>
+                    <p class="number">0</p>
+                </div>
+            </div>
+
+            <div class="metric-color4">
+                <div class="metricIcon">
+                    <img class="mx-auto d-block" src="/images/money.png">
+                </div>
+                <div class="info">
+                    <p class="item">Pagos</p>
+                    <p class="number">ARS 0</p>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <h3 class="myProductsDashboardH3">Mis productos</h3>
+
+            <a class="btn btn-primary createProductDashboardLink" href="{{ host }}/products/add-product">Crear nuevo</a>
+
+            {% for product in myProducts %}
+                <div class="myProductCard">
+                    <div class="col-md-3">{{ product.name }}</div>
+                    <div class="col-md-3">{{ product.description }}</div>
+                    <div class="col-md-2 d-none d-sm-block"><img class="rounded img-thumbnail" src="/uploads/products/{{ product.imageUrl }}"></div>
+                    <div class="col-md-2">{{ product.currency }} {{ product.amount }}</div>
+                    <div class="col-md-2">
+                        <a class="btn btn-warning" href="{{ host }}/products/add-product/{{ product.id }}">Editar</a>
+                        <a class="btn btn-danger" href="{{ host }}/products/delete-product/{{ product.id }}">Eliminar</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

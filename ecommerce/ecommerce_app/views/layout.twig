@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{{ title }}</title>
+        <meta name="viewport" content="width=device-width,initial-scale=1"/>
+        <script src="/javascripts/jquery.js"></script>
+        <script src="/javascripts/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="/stylesheets/bootstrap.min.css"/>
+        <link rel="stylesheet" href="/stylesheets/style.css"/>
+    </head>
+    <body>
+        <header>
+            <nav>
+                <ul>
+                    <li><a href="#"><img title="{{ enterprise.name }}" class="logoHeader" src="/images/ecommerce-logo.png"></a></li>
+
+                    {% if not isLoggedIn %}
+                        <li><a href="{{ host }}/login">Iniciar sesión</a></li>
+                        <li><a href="{{ host }}/register">Registrarse</a></li>
+                    {% endif %}
+
+                    <li><a href="{{ host }}/search">Buscar</a></li>
+
+                    {% if isLoggedIn %}
+                        <li><a href="{{ host }}/users/dashboard">Mis productos</a></li>
+                        <li>
+                            <form action="{{ host }}/users/logout" method="POST">
+                                <input type="submit" value="Cerrar sessión">
+                            </form>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </header>
+        <section class="content">
+            {% block body %}{% endblock %}
+        </section>
+        <footer>
+            <div class="col-md-3 logoFooter">
+                <a href="#"><img src="/images/ecommerce-logo.png"></a>
+                <p>Electroniks e-commerce</p>
+            </div>
+            {% if not isLoggedIn %}
+                <ul class="col-md-3">
+                    <li><a href="#">Iniciar sesión</a></li>
+                    <li><a href="#">Registrarse</a></li>
+                    <li><a href="#">Buscar</a></li>
+                </ul>
+            {% endif %}
+
+            <ul class="col-md-3 d-none d-sm-block">
+                <li><a href="#">Link 1</a></li>
+                <li><a href="#">Link 2</a></li>
+                <li><a href="#">Link 3</a></li>
+                <li><a href="#">Link 4</a></li>
+            </ul>
+
+            <ul class="col-md-3 d-none d-sm-block">
+                <li><a href="#">Producto Link 1</a></li>
+                <li><a href="#">Producto Link 2</a></li>
+                <li><a href="#">Producto Link 3</a></li>
+                <li><a href="#">Producto Link 4</a></li>
+            </ul>
+        </footer>
+    </body>
+</html>

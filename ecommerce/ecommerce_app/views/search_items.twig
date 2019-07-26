@@ -1,0 +1,14 @@
+{% for productsChunk in products | batch(3) %}
+<div class="row">
+    {% for product in productsChunk %}
+        <div class="col-md-4">
+            <article class="product">
+                <p class="productName">{{ product.name }}</p>
+                <img src="/uploads/products/{{ product.imageUrl }}">
+                <p>{{ product.currency }} {{ product.amount }}</p>
+                <input type="button" class="buyButton" value="Comprar">
+            </article>
+        </div>
+    {% endfor %}
+</div>
+{% endfor %}
