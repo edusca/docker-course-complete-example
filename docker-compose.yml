@@ -44,13 +44,11 @@ services:
           - "3000"
         env_file:
           - .env
-        volumes:
-          - "${CODE_PATH_ECOMMERCE_APP}:/code"
         labels:
           traefik.frontend.rule: "Host:ecommerceapp.docker.localhost"
         networks:
           - ecommerce_app_net
-        command: ["run", "dev"]
+        command: ["run", "prod"]
     blog_fpm:
         build: ./blog/app
         env_file:
