@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "nodemon ./bin/www",
+    "dev": "./node_modules/.bin/nodemon ./bin/www",
     "prod": "node ./bin/www",
     "migrations:migrate": "./node_modules/.bin/sequelize db:migrate",
     "migrations:rollback": "./node_modules/.bin/sequelize db:migrate:undo"

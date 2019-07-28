@@ -32,11 +32,9 @@ services:
           - "3000:3000"
         env_file:
           - .env
-        volumes:
-          - "${CODE_PATH_ECOMMERCE_APP}:/code"
         networks:
           - ecommerce_app_net
-        command: ["run", "dev"]
+        command: ["run", "prod"]
 
 networks:
   ecommerce_app_net:
