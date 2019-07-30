@@ -1,0 +1,3 @@
+FROM wordpress:php7.2-fpm-alpine
+
+COPY ./wordpress /www/html
